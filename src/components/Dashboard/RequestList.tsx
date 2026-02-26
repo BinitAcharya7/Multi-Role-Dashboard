@@ -19,6 +19,38 @@ export default function RequestList() {
     return true;
   });
 
+  // no requests in filter, for agent or supervisor handler:
+  if (visibleRequests.length === 0) {
+    let message = '';
+
+    if (state.filter !== 'ALL') {
+      message = 'No requests match this filter.';
+    } else if (state.role === 'AGENT') {
+      message = 'Nothing assigned to you right now. Enjoy the silence 😌';
+    } else {
+      message = 'No requests in the system.';
+    }
+
+    return (
+      <div style={{ padding: 20 }}>
+        <h2>
+          {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+        </h2>
+
+        <div
+          style={{
+            marginTop: 40,
+            textAlign: 'center',
+            color: '#777',
+            fontSize: 18,
+          }}
+        >
+          {message}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: 20 }}>
       <h2>{state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}</h2>
