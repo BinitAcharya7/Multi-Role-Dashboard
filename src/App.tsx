@@ -1,11 +1,13 @@
 import './App.css';
 import { AppProvider } from './context/AppContext';
-import Tester from './Tester';
+import RequestList from './components/Dashboard/RequestList';
+import DashboardHeader from './components/Dashboard/DashboardHeader';
 
 function App() {
   return (
     <AppProvider>
-      <Tester />
+      <DashboardHeader />
+      <RequestList />
     </AppProvider>
   );
 }
