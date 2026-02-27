@@ -1,12 +1,23 @@
-// src/RequestList.tsx
+import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { Button } from '../ui/button';
+import CancelModal from '../Modals/CancelModal';
 
 export default function RequestList() {
   const { state, dispatch } = useApp();
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
 
   // Hardcode the current logged-in Agent
   const currentAgentId = 'a2';
+
+  function handleRequestCancel(id: string) {
+    dispatch({
+      type: 'CANCEL_REQUEST',
+      id: id,
+      reason: 'Cancelled manually',
+    });
+    setIsCancelOpen(true);
+  }
 
   // Filter requests based on role and selected filter
   const visibleRequests = state.requests.filter((req) => {
@@ -117,21 +128,23 @@ export default function RequestList() {
                         Start
                       </Button>
                     )}
-                    <Button
-                      onClick={() =>
-                        dispatch({
-                          type: 'CANCEL_REQUEST',
-                          id: req.id,
-                          reason: 'Cancelled manually',
-                        })
-                      }
-                    >
+                    <Button onClick={() => handleRequestCancel(req.id)}>
                       Cancel
                     </Button>
                   </>
                 )}
             </div>
-
+            <CancelModal
+              isOpen={isCancelOpen}
+              onClose={() => setIsCancelOpen(false)}
+              onConfirm={(reason) => {
+                dispatch({
+                  type: 'CANCEL_REQUEST',
+                  payload: { id: request.id, reason },
+                });
+                setIsCancelOpen(false);
+              }}
+            />
             {/* Supervisor-only Reassign Dropdown */}
             {state.role === 'SUPERVISOR' &&
               !['COMPLETED', 'CANCELLED'].includes(req.state) && (
