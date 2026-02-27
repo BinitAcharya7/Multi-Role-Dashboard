@@ -57,7 +57,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
         {state.role === 'SUPERVISOR' &&
           !['COMPLETED', 'CANCELLED'].includes(req.state) && (
             <>
-              {req.state === 'PENDING' && (
+              {req.state === 'PENDING' && req.agentId !== null && (
                 <Button
                   onClick={() =>
                     dispatch({ type: 'START_REQUEST', id: req.id })
@@ -88,22 +88,24 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
       {state.role === 'SUPERVISOR' &&
         !['COMPLETED', 'CANCELLED'].includes(req.state) && (
           <div style={{ marginTop: 8 }}>
-            <select
-              value={req.agentId}
-              onChange={(e) =>
-                dispatch({
-                  type: 'REASSIGN_REQUEST',
-                  id: req.id,
-                  agentId: e.target.value,
-                })
-              }
-            >
-              {state.agents.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
+            {req.agentId && (
+              <select
+                value={req.agentId}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'REASSIGN_REQUEST',
+                    id: req.id,
+                    agentId: e.target.value,
+                  })
+                }
+              >
+                {state.agents.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
         )}
     </div>

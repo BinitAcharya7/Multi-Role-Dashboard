@@ -1,4 +1,4 @@
-import type { AppState, Action, RequestState } from '@/types';
+import type { AppState, Action, RequestState, Request } from '@/types';
 
 import { mockAgents, mockRequests } from '@/mockData';
 
@@ -140,17 +140,17 @@ function handleStateChanged(state: AppState, id: string): AppState {
       req.id === id
         ? {
             ...req,
-            state: nextState(req.state),
+            state: nextState(req),
             lastUpdated: new Date().toISOString(),
           }
         : req,
     ),
   };
 
-  function nextState(state: RequestState): RequestState {
-    if (state === 'PENDING') return 'ACTIVE';
-    if (state === 'ACTIVE') return 'COMPLETED';
-    return state;
+  function nextState(req: Request): RequestState {
+    if (req.state === 'PENDING' && req.agentId !== null) return 'ACTIVE';
+    if (req.state === 'ACTIVE') return 'COMPLETED';
+    return req.state;
   }
 }
 
@@ -164,13 +164,19 @@ function handleAgentAssigned(state: AppState): AppState {
   const randomRequest =
     unassigned[Math.floor(Math.random() * unassigned.length)];
 
+  const notNullAgentArray = agentArray.filter((id) => id !== null);
+
   return {
     ...state,
     requests: state.requests.map((req) =>
       req.id === randomRequest.id
         ? {
             ...req,
-            agentId: agentArray[Math.floor(Math.random() * agentArray.length)],
+            agentId:
+              notNullAgentArray[
+                Math.floor(Math.random() * notNullAgentArray.length)
+              ],
+            lastUpdated: new Date().toISOString(),
           }
         : req,
     ),
