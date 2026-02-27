@@ -23,12 +23,12 @@ export default function DashboardHeader() {
   });
 
   return (
-    <div className="px-6 flex gap-4 justify-around h-32 bg-linear-120 from-blue-700 via-purple-800 to-blue-800 items-center w-full rounded-2xl">
+    <div className="px-6 flex gap-4 justify-around h-32 bg-linear-120 from-gray-950 via-purple-950 to-gray-950 items-center w-full">
       {/* Role Switcher */}
       <div>
-        <label className="mr-2 font-bold text-white">Role:</label>
+        <label className="mr-2 font-bold text-pink-300">Role:</label>
         <select
-          className="text-white bg-gray-800"
+          className="text-pink-300 bg-gray-800"
           value={state.role}
           onChange={(e) =>
             dispatch({
@@ -65,12 +65,12 @@ export default function DashboardHeader() {
         {/* Connection Indicator */}
         <button
           className={`
-    px-4 py-2 rounded-3xl font-semibold text-l transition-colors duration-300 text-white cursor-auto
+    px-1.5 py-0.5 rounded-3xl font-semibold text-sm transition-colors duration-300 text-pink-300 cursor-auto
     ${
       connectionStatus === 'CONNECTED'
-        ? 'bg-green-500 animate-pulse'
+        ? 'bg-green-700 animate-pulse'
         : connectionStatus === 'RECONNECTING'
-          ? 'bg-yellow-500'
+          ? 'bg-yellow-600'
           : 'bg-gray-500'
     }
   `}
@@ -80,9 +80,9 @@ export default function DashboardHeader() {
 
         {/* Filter */}
         <div>
-          <label className="mr-2 font-bold text-white">Filter:</label>
+          <label className="mr-2 font-bold text-pink-300">Filter:</label>
           <select
-            className="text-white bg-gray-800"
+            className="text-pink-300 bg-gray-800"
             value={state.filter}
             onChange={(e) =>
               dispatch({

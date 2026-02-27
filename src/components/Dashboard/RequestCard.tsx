@@ -17,7 +17,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
   return (
     <div
       key={req.id}
-      className="border-gray-400 p-4 border rounded-4xl flex-col text-left shadow-black bg-linear-120 from-purple-800 via-indigo-500 to-blue-700 text-white"
+      className="border-purple-800 p-4 border rounded-4xl flex-col text-left shadow-black bg-gray-900 text-white"
     >
       <div className="text-center text-yellow-400">
         <strong>{req.description}</strong>
@@ -53,10 +53,12 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
       {state.role === 'SUPERVISOR' &&
         !['COMPLETED', 'CANCELLED'].includes(req.state) && (
           <div className="text-center mt-2">
-            <div className="text-l text-pink-400 font-bold">Reassign Agent</div>
+            <div className="text-l text-pink-300 font-bold mb-1">
+              Reassign Agent
+            </div>
             {
               <select
-                className="text-white bg-gray-800"
+                className="text-pink-300 bg-gray-800"
                 value={req.agentId ?? ''}
                 onChange={(e) =>
                   dispatch({
@@ -83,6 +85,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
           req.agentId === currentAgentId &&
           req.state === 'PENDING' && (
             <Button
+              variant="secondary"
               onClick={() => dispatch({ type: 'START_REQUEST', id: req.id })}
             >
               Start
@@ -92,6 +95,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
           req.agentId === currentAgentId &&
           req.state === 'ACTIVE' && (
             <Button
+              variant="secondary"
               onClick={() => dispatch({ type: 'COMPLETE_REQUEST', id: req.id })}
             >
               Mark Complete
@@ -104,6 +108,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
             <>
               {req.state === 'PENDING' && req.agentId !== null && (
                 <Button
+                  variant="secondary"
                   onClick={() =>
                     dispatch({ type: 'START_REQUEST', id: req.id })
                   }
@@ -111,8 +116,13 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
                   Start
                 </Button>
               )}
-              {req.state === 'PENDING' && (
-                <Button onClick={() => setIsCancelOpen(true)}>Cancel</Button>
+              {!['COMPLETED', 'CANCELLED'].includes(req.state) && (
+                <Button
+                  variant="destructive"
+                  onClick={() => setIsCancelOpen(true)}
+                >
+                  Cancel
+                </Button>
               )}
             </>
           )}

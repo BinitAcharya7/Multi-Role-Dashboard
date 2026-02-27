@@ -32,16 +32,18 @@ export default function RequestList() {
 
     return (
       <div className="p-5">
-        <h2
-          className="font-extrabold text-purple-600 text-2xl text-center cursor-pointer"
-          onClick={() =>
-            dispatch({
-              type: 'SET_ROLE',
-              role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
-            })
-          }
-        >
-          {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+        <h2 className="text-center">
+          <span
+            className="font-extrabold text-purple-600 text-2xl cursor-pointer"
+            onClick={() =>
+              dispatch({
+                type: 'SET_ROLE',
+                role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
+              })
+            }
+          >
+            {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+          </span>
         </h2>
 
         <div className="mt-10 text-center text-gray-700 text-xl">{message}</div>
@@ -51,16 +53,18 @@ export default function RequestList() {
 
   return (
     <div className="p-5">
-      <h2
-        className="font-extrabold text-purple-600 text-2xl text-center cursor-pointer"
-        onClick={() =>
-          dispatch({
-            type: 'SET_ROLE',
-            role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
-          })
-        }
-      >
-        {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+      <h2 className="text-center">
+        <span
+          className="font-extrabold text-purple-600 text-2xl cursor-pointer"
+          onClick={() =>
+            dispatch({
+              type: 'SET_ROLE',
+              role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
+            })
+          }
+        >
+          {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+        </span>
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">

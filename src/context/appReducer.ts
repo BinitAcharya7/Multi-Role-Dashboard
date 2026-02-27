@@ -90,7 +90,7 @@ function handleCancelRequest(
   return {
     ...state,
     requests: state.requests.map((req) =>
-      req.id === id && req.state === 'PENDING'
+      req.id === id && !['COMPLETED', 'CANCELLED'].includes(req.state)
         ? {
             ...req,
             state: 'CANCELLED',
