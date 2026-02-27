@@ -4,6 +4,13 @@ import CancelModal from '../Modals/CancelModal';
 import { useState } from 'react';
 import type { Request } from '@/types';
 
+const stateColors = {
+  PENDING: 'text-yellow-600',
+  ACTIVE: 'text-blue-600',
+  COMPLETED: 'text-green-600',
+  CANCELLED: 'text-red-600',
+};
+
 interface RequestCardProps {
   req: Request;
   currentAgentId?: string | null;
@@ -26,7 +33,10 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
         <span className="text-purple-800 font-bold">ID:</span> {req.id}
       </div>
       <div>
-        <span className="text-purple-800 font-bold">State:</span> {req.state}
+        <span className="text-purple-800 font-bold">State:</span>{' '}
+        <span className={`${stateColors[req.state]} font-bold`}>
+          {req.state}
+        </span>
       </div>
       <div>
         <span className="text-purple-800 font-bold">Agent:</span>{' '}
@@ -91,7 +101,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
             <Button
               onClick={() => dispatch({ type: 'COMPLETE_REQUEST', id: req.id })}
             >
-              Complete
+              Mark Complete
             </Button>
           )}
 
