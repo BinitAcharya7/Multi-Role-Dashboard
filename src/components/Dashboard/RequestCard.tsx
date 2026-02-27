@@ -12,27 +12,69 @@ interface RequestCardProps {
 function RequestCard({ req, currentAgentId }: RequestCardProps) {
   const { state, dispatch } = useApp();
   const [isCancelOpen, setIsCancelOpen] = useState(false);
-  const agent = state.agents.find((a) => a.id === req.agentId);
+  const agent = state.agents.find((a) => a.id === req.agentId); // Deriving agent for agent name
+
   return (
     <div
       key={req.id}
-      style={{
-        border: '1px solid #ccc',
-        padding: 12,
-        marginBottom: 10,
-        borderRadius: 6,
-      }}
+      className="border-purple-700 p-4 border-2 rounded-4xl flex-col text-left shadow-black"
     >
-      <div>ID: {req.id}</div>
-      <strong>{req.description}</strong>
-      <div>State: {req.state}</div>
-      <div>Agent: {agent?.name ?? 'Unknown'}</div>
-      <div>Last Updated: {new Date(req.lastUpdated).toLocaleString()}</div>
+      <div className="text-center text-blue-600">
+        <strong>{req.description}</strong>
+      </div>
+      <div>
+        <span className="text-purple-800 font-bold">ID:</span> {req.id}
+      </div>
+      <div>
+        <span className="text-purple-800 font-bold">State:</span> {req.state}
+      </div>
+      <div>
+        <span className="text-purple-800 font-bold">Agent:</span>{' '}
+        {agent?.name ?? 'Unknown'}
+      </div>
+      <div>
+        <span className="text-purple-800 font-bold">Last Updated:</span>{' '}
+        {new Date(req.lastUpdated).toLocaleString()}
+      </div>
 
-      {req.state === 'CANCELLED' && <div>Reason: {req.cancelReason}</div>}
+      {req.state === 'CANCELLED' && (
+        <div>
+          <span className="text-purple-800 font-bold">Reason:</span>{' '}
+          {req.cancelReason || 'No Reason Given'}
+        </div>
+      )}
+
+      {/* Supervisor-only Reassign Dropdown */}
+      {state.role === 'SUPERVISOR' &&
+        !['COMPLETED', 'CANCELLED'].includes(req.state) && (
+          <div className="text-center mt-2">
+            <div className="text-l text-purple-950 font-bold">
+              Reassign Agent
+            </div>
+            {
+              <select
+                className="text-center"
+                value={req.agentId ?? ''}
+                onChange={(e) =>
+                  dispatch({
+                    type: 'REASSIGN_REQUEST',
+                    id: req.id,
+                    agentId: e.target.value,
+                  })
+                }
+              >
+                {state.agents.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.name}
+                  </option>
+                ))}
+              </select>
+            }
+          </div>
+        )}
 
       {/* Action Buttons */}
-      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+      <div className="flex mt-2 gap-2 justify-center">
         {/* Agent buttons */}
         {state.role === 'AGENT' &&
           req.agentId === currentAgentId &&
@@ -84,30 +126,6 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
           setIsCancelOpen(false);
         }}
       />
-      {/* Supervisor-only Reassign Dropdown */}
-      {state.role === 'SUPERVISOR' &&
-        !['COMPLETED', 'CANCELLED'].includes(req.state) && (
-          <div style={{ marginTop: 8 }}>
-            {req.agentId && (
-              <select
-                value={req.agentId}
-                onChange={(e) =>
-                  dispatch({
-                    type: 'REASSIGN_REQUEST',
-                    id: req.id,
-                    agentId: e.target.value,
-                  })
-                }
-              >
-                {state.agents.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '../ui/button';
 
 type Props = {
   isOpen: boolean;
@@ -23,11 +24,11 @@ export default function CancelModal({ isOpen, onClose, onConfirm }: Props) {
 
   return (
     <div
-      className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50"
       onClick={onClose}
     >
       <div
-        className="bg-darkgray rounded-lg p-6 w-100 shadow-lg"
+        className="rounded-lg p-6 w-96 shadow-lg bg-red-200 border-red-500 border-2"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold mb-4">Cancel Request</h2>
@@ -52,21 +53,14 @@ export default function CancelModal({ isOpen, onClose, onConfirm }: Props) {
         />
 
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-3 py-1 bg-gray-300 rounded">
-            Close
-          </button>
-
-          <button
+          <Button onClick={onClose}>Close</Button>
+          <Button
             onClick={handleSubmit}
             disabled={!canSubmit}
-            className={`px-3 py-1 rounded text-white ${
-              canSubmit
-                ? 'bg-red-500 hover:bg-red-600'
-                : 'bg-gray-400 cursor-not-allowed'
-            }`}
+            variant="destructive"
           >
             Confirm Cancel
-          </button>
+          </Button>
         </div>
       </div>
     </div>

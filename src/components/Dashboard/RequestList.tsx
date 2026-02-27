@@ -31,8 +31,8 @@ export default function RequestList() {
     }
 
     return (
-      <div style={{ padding: 20 }}>
-        <h2>
+      <div className="p-5">
+        <h2 className="font-extrabold text-purple-600 text-2xl">
           {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
         </h2>
 
@@ -51,12 +51,16 @@ export default function RequestList() {
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>{state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}</h2>
+    <div className="p-5">
+      <h2 className="font-extrabold text-purple-600 text-2xl">
+        {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
+      </h2>
 
-      {visibleRequests.map((req) => (
-        <RequestCard key={req.id} req={req} currentAgentId={currentAgentId} />
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {visibleRequests.map((req) => (
+          <RequestCard key={req.id} req={req} currentAgentId={currentAgentId} />
+        ))}
+      </div>
     </div>
   );
 }
