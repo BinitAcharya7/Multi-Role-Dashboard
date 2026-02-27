@@ -1,14 +1,15 @@
 import './App.css';
-import { AppProvider } from './context/AppContext';
 import RequestList from './components/Dashboard/RequestList';
 import DashboardHeader from './components/Dashboard/DashboardHeader';
+import { useAutoAdvance } from './hooks/useAutoAdvance';
 
 function App() {
+  useAutoAdvance();
   return (
-    <AppProvider>
+    <>
       <DashboardHeader />
       <RequestList />
-    </AppProvider>
+    </>
   );
 }
 

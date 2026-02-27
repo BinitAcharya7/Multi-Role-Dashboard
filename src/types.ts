@@ -39,4 +39,7 @@ export type Action =
   | { type: 'COMPLETE_REQUEST'; id: string }
   | { type: 'CANCEL_REQUEST'; id: string; reason: string }
   | { type: 'REASSIGN_REQUEST'; id: string; agentId: string }
-  | { type: 'AUTO_ADVANCE' };
+  | { type: 'AUTO_ADVANCE' }
+  | { type: 'REQUEST_CREATED' }
+  | { type: 'STATE_CHANGED' }
+  | { type: 'AGENT_ASSIGNED' };

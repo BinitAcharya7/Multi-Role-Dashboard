@@ -26,7 +26,7 @@ export default function RequestList() {
     if (state.filter !== 'ALL') {
       message = 'No requests match this filter.';
     } else if (state.role === 'AGENT') {
-      message = 'Nothing assigned to you right now. Enjoy the silence 😌';
+      message = 'Nothing assigned to you right now.';
     } else {
       message = 'No requests in the system.';
     }
@@ -68,6 +68,7 @@ export default function RequestList() {
               borderRadius: 6,
             }}
           >
+            <div>ID: {req.id}</div>
             <strong>{req.description}</strong>
             <div>State: {req.state}</div>
             <div>Agent: {agent?.name ?? 'Unknown'}</div>

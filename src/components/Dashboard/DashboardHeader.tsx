@@ -1,9 +1,17 @@
 import { useApp } from '@/context/AppContext';
+import { useRequestStream } from '@/hooks/useRequestStream';
 import type { UserRole } from '@/types';
 import type { RequestState } from '@/types';
+// import { useState } from 'react';
 
 export default function DashboardHeader() {
   const { state, dispatch } = useApp();
+  // const [autoAdvanceEnabled, setAutoAdvanceEnabled] = useState(true);
+
+  // const isRunning = useAutoAdvance(autoAdvanceEnabled);
+
+  const isSupervisor = state.role === 'SUPERVISOR';
+  const connectionStatus = useRequestStream(true);
 
   // Live counts for summary bar
   const counts = {
@@ -44,6 +52,43 @@ export default function DashboardHeader() {
           <option value="AGENT">Agent</option>
         </select>
       </div>
+
+      <button
+        className={`
+    px-4 py-2 rounded font-semibold transition-colors duration-300 text-white
+    ${
+      connectionStatus === 'CONNECTED'
+        ? 'bg-green-500 animate-pulse'
+        : connectionStatus === 'RECONNECTING'
+          ? 'bg-yellow-500'
+          : 'bg-gray-500'
+    }
+  `}
+      >
+        {connectionStatus}
+      </button>
+
+      {/* Auto Advancing Toggle */}
+      {/* <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-bold"> Operations Dashboard</h1>
+        {isSupervisor && (
+          <button
+            onClick={() => setAutoAdvanceEnabled((prev) => !prev)}
+            className={`
+            px-4 py-2 rounded font-semibold cursor-pointer
+            transition-colors duration-300
+            ${isRunning ? 'bg-green-500 hover:bg-green-600 animate-pulse' : 'bg-gray-500 hover:bg-gray-600'}
+            text-white
+          `}
+          >
+            {!autoAdvanceEnabled
+              ? 'Start Auto Advancing'
+              : isRunning
+                ? 'Auto Advancing'
+                : 'All Done'}
+          </button>
+        )}
+      </div> */}
 
       {/* RIGHT SIDE → Filter + Stats */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
