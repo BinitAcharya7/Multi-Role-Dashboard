@@ -1,4 +1,4 @@
-import type { AppState, Action } from '@/types';
+import type { AppState, Action, RequestState } from '@/types';
 
 import { mockAgents, mockRequests } from '@/mockData';
 
@@ -8,6 +8,8 @@ export const initialState: AppState = {
   agents: mockAgents,
   filter: 'ALL',
 };
+
+const agentArray = ['a1', 'a2', 'a3', 'a4', 'a5'];
 
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -33,7 +35,7 @@ function appReducer(state: AppState, action: Action): AppState {
       return handleRequestCreated(state);
 
     case 'STATE_CHANGED':
-      return handleStateChanged(state);
+      return handleStateChanged(state, action.id);
 
     case 'AGENT_ASSIGNED':
       return handleAgentAssigned(state);
@@ -76,7 +78,7 @@ function handleCancelRequest(
   return {
     ...state,
     requests: state.requests.map((req) =>
-      req.id === id && !['COMPLETED', 'CANCELLED'].includes(req.state)
+      req.id === id && req.state === 'PENDING'
         ? {
             ...req,
             state: 'CANCELLED',
@@ -112,63 +114,41 @@ function handleRequestCreated(state: AppState): AppState {
         id: crypto.randomUUID(),
         description: 'New Request',
         state: 'PENDING',
-        agentId: 'a3',
+        agentId: agentArray[Math.floor(Math.random() * agentArray.length)],
         lastUpdated: new Date().toISOString(),
       },
     ],
   };
 }
 
-function handleStateChanged(state: AppState): AppState {
+function handleStateChanged(state: AppState, id: string): AppState {
   return {
     ...state,
-    requests: state.requests.map((r) =>
-      r.state === 'PENDING'
-        ? { ...r, state: 'ACTIVE' }
-        : r.state === 'ACTIVE'
-          ? { ...r, state: 'COMPLETED' }
-          : r,
+    requests: state.requests.map((req) =>
+      req.id === id
+        ? {
+            ...req,
+            state: nextState(req.state),
+            lastUpdated: new Date().toISOString(),
+          }
+        : req,
     ),
   };
+
+  function nextState(state: RequestState): RequestState {
+    if (state === 'PENDING') return 'ACTIVE';
+    if (state === 'ACTIVE') return 'COMPLETED';
+    return state;
+  }
 }
 
 function handleAgentAssigned(state: AppState): AppState {
   return {
     ...state,
-    requests: state.requests.map((r) =>
-      r.state === 'PENDING' ? { ...r, assignedTo: 'Agent-1' } : r,
+    requests: state.requests.map((req) =>
+      req.state === 'PENDING' ? { ...req, assignedTo: 'a2' } : req,
     ),
   };
 }
-
-// function handleAutoAdvance(state: AppState): AppState {
-//   const candidates = state.requests.filter(
-//     (req) => req.state === 'PENDING' || req.state === 'ACTIVE',
-//   );
-//   if (candidates.length === 0) return state;
-
-//   const randomIndex = Math.floor(Math.random() * candidates.length);
-//   const request = candidates[randomIndex];
-
-//   return {
-//     ...state,
-//     requests: state.requests.map((req) => {
-//       if (req.id !== request.id) return req;
-//       if (request.state === 'PENDING')
-//         return {
-//           ...req,
-//           state: 'ACTIVE',
-//           lastUpdated: new Date().toISOString(),
-//         };
-//       if (request.state === 'ACTIVE')
-//         return {
-//           ...request,
-//           state: 'COMPLETED',
-//           lastUpdated: new Date().toISOString(),
-//         };
-//       return req;
-//     }),
-//   };
-// }
 
 export default appReducer;

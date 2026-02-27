@@ -6,11 +6,8 @@ import type { RequestState } from '@/types';
 
 export default function DashboardHeader() {
   const { state, dispatch } = useApp();
-  // const [autoAdvanceEnabled, setAutoAdvanceEnabled] = useState(true);
 
-  // const isRunning = useAutoAdvance(autoAdvanceEnabled);
-
-  const isSupervisor = state.role === 'SUPERVISOR';
+  // const isSupervisor = state.role === 'SUPERVISOR';
   const connectionStatus = useRequestStream(true);
 
   // Live counts for summary bar
@@ -36,7 +33,7 @@ export default function DashboardHeader() {
         gap: '16px',
       }}
     >
-      {/* LEFT SIDE → Role Switcher */}
+      {/* Role Switcher */}
       <div>
         <label style={{ marginRight: 8, fontWeight: 'bold' }}>Role:</label>
         <select
@@ -68,29 +65,7 @@ export default function DashboardHeader() {
         {connectionStatus}
       </button>
 
-      {/* Auto Advancing Toggle */}
-      {/* <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold"> Operations Dashboard</h1>
-        {isSupervisor && (
-          <button
-            onClick={() => setAutoAdvanceEnabled((prev) => !prev)}
-            className={`
-            px-4 py-2 rounded font-semibold cursor-pointer
-            transition-colors duration-300
-            ${isRunning ? 'bg-green-500 hover:bg-green-600 animate-pulse' : 'bg-gray-500 hover:bg-gray-600'}
-            text-white
-          `}
-          >
-            {!autoAdvanceEnabled
-              ? 'Start Auto Advancing'
-              : isRunning
-                ? 'Auto Advancing'
-                : 'All Done'}
-          </button>
-        )}
-      </div> */}
-
-      {/* RIGHT SIDE → Filter + Stats */}
+      {/* Filter + Stats */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {/* Filter */}
         <div>
@@ -112,7 +87,7 @@ export default function DashboardHeader() {
           </select>
         </div>
 
-        {/* Summary Stats */}
+        {/* Summary*/}
         <div style={{ display: 'flex', gap: '12px', fontSize: 14 }}>
           <span>🟡 {counts.PENDING}</span>
           <span>🔵 {counts.ACTIVE}</span>

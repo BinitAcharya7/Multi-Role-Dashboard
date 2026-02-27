@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useApp } from '@/context/AppContext';
 
 type Status = 'CONNECTED' | 'RECONNECTING';
 
 export function useRequestStream(enabled: boolean) {
-  const { dispatch } = useApp();
+  const { state, dispatch } = useApp();
   const [status, setStatus] = useState<Status>('CONNECTED');
+  const reconnectTimer = useRef<number | null>(null);
+  const requestsRef = useRef(state.requests);
+
+  useEffect(() => {
+    requestsRef.current = state.requests;
+  }, [state.requests]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -16,19 +22,26 @@ export function useRequestStream(enabled: boolean) {
     function startStream() {
       setStatus('CONNECTED');
 
-      interval = window.setInterval(() => {
+      interval = setInterval(() => {
         const event = Math.floor(Math.random() * 3);
 
         if (event === 0) dispatch({ type: 'REQUEST_CREATED' });
-        if (event === 1) dispatch({ type: 'STATE_CHANGED' });
+        if (event === 1) {
+          const requests = requestsRef.current.filter(
+            (req) => req.state === 'PENDING' || req.state === 'ACTIVE',
+          );
+          if (requests.length === 0) return;
+          const random = requests[Math.floor(Math.random() * requests.length)];
+          dispatch({ type: 'STATE_CHANGED', id: random.id });
+        }
         if (event === 2) dispatch({ type: 'AGENT_ASSIGNED' });
       }, 5000);
 
-      disconnectTimer = window.setTimeout(() => {
+      disconnectTimer = setTimeout(() => {
         clearInterval(interval);
         setStatus('RECONNECTING');
 
-        setTimeout(() => {
+        reconnectTimer.current = setTimeout(() => {
           startStream(); // restart everything
         }, 5000);
       }, 30000);
@@ -39,6 +52,7 @@ export function useRequestStream(enabled: boolean) {
     return () => {
       clearInterval(interval);
       clearTimeout(disconnectTimer);
+      if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
     };
   }, [enabled, dispatch]);
 
