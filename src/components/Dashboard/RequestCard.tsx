@@ -4,13 +4,6 @@ import CancelModal from '../Modals/CancelModal';
 import { useState } from 'react';
 import type { Request } from '@/types';
 
-const stateColors = {
-  PENDING: 'text-yellow-600',
-  ACTIVE: 'text-blue-600',
-  COMPLETED: 'text-green-600',
-  CANCELLED: 'text-red-600',
-};
-
 interface RequestCardProps {
   req: Request;
   currentAgentId?: string | null;
@@ -24,32 +17,34 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
   return (
     <div
       key={req.id}
-      className="border-purple-700 p-4 border-2 rounded-4xl flex-col text-left shadow-black"
+      className="border-gray-400 p-4 border rounded-4xl flex-col text-left shadow-black bg-linear-120 from-purple-800 via-indigo-500 to-blue-700 text-white"
     >
-      <div className="text-center text-blue-600">
+      <div className="text-center text-yellow-400">
         <strong>{req.description}</strong>
       </div>
       <div>
-        <span className="text-purple-800 font-bold">ID:</span> {req.id}
+        <span className="text-purple-400 font-bold">ID:</span> {req.id}
       </div>
       <div>
-        <span className="text-purple-800 font-bold">State:</span>{' '}
-        <span className={`${stateColors[req.state]} font-bold`}>
+        <span className="text-purple-400 font-bold">State:</span>{' '}
+        <span
+          className={`${req.state === 'PENDING' ? 'text-yellow-400' : req.state === 'ACTIVE' ? 'text-blue-400' : req.state === 'COMPLETED' ? 'text-green-400' : 'text-red-700'} font-bold`}
+        >
           {req.state}
         </span>
       </div>
       <div>
-        <span className="text-purple-800 font-bold">Agent:</span>{' '}
+        <span className="text-purple-400 font-bold">Agent:</span>{' '}
         {agent?.name ?? 'Unknown'}
       </div>
       <div>
-        <span className="text-purple-800 font-bold">Last Updated:</span>{' '}
+        <span className="text-purple-400 font-bold">Last Updated:</span>{' '}
         {new Date(req.lastUpdated).toLocaleString()}
       </div>
 
       {req.state === 'CANCELLED' && (
         <div>
-          <span className="text-purple-800 font-bold">Reason:</span>{' '}
+          <span className="text-purple-400 font-bold">Reason:</span>{' '}
           {req.cancelReason || 'No Reason Given'}
         </div>
       )}
@@ -58,12 +53,10 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
       {state.role === 'SUPERVISOR' &&
         !['COMPLETED', 'CANCELLED'].includes(req.state) && (
           <div className="text-center mt-2">
-            <div className="text-l text-purple-950 font-bold">
-              Reassign Agent
-            </div>
+            <div className="text-l text-pink-400 font-bold">Reassign Agent</div>
             {
               <select
-                className="text-center"
+                className="text-white bg-gray-800"
                 value={req.agentId ?? ''}
                 onChange={(e) =>
                   dispatch({

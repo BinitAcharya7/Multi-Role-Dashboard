@@ -2,7 +2,7 @@ import { useApp } from '@/context/AppContext';
 import RequestCard from './RequestCard';
 
 export default function RequestList() {
-  const { state } = useApp();
+  const { dispatch, state } = useApp();
 
   // Hardcode the current logged-in Agent
   const currentAgentId = 'a2';
@@ -32,27 +32,34 @@ export default function RequestList() {
 
     return (
       <div className="p-5">
-        <h2 className="font-extrabold text-purple-600 text-2xl">
+        <h2
+          className="font-extrabold text-purple-600 text-2xl text-center cursor-pointer"
+          onClick={() =>
+            dispatch({
+              type: 'SET_ROLE',
+              role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
+            })
+          }
+        >
           {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
         </h2>
 
-        <div
-          style={{
-            marginTop: 40,
-            textAlign: 'center',
-            color: '#777',
-            fontSize: 18,
-          }}
-        >
-          {message}
-        </div>
+        <div className="mt-10 text-center text-gray-700 text-xl">{message}</div>
       </div>
     );
   }
 
   return (
     <div className="p-5">
-      <h2 className="font-extrabold text-purple-600 text-2xl">
+      <h2
+        className="font-extrabold text-purple-600 text-2xl text-center cursor-pointer"
+        onClick={() =>
+          dispatch({
+            type: 'SET_ROLE',
+            role: state.role === 'SUPERVISOR' ? 'AGENT' : 'SUPERVISOR',
+          })
+        }
+      >
         {state.role === 'SUPERVISOR' ? 'Supervisor View' : 'Agent View'}
       </h2>
 

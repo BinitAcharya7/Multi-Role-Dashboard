@@ -23,20 +23,12 @@ export default function DashboardHeader() {
   });
 
   return (
-    <div
-      style={{
-        padding: '16px',
-        borderBottom: '1px solid #ddd',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '16px',
-      }}
-    >
+    <div className="px-6 flex gap-4 justify-around h-32 bg-linear-120 from-blue-700 via-purple-800 to-blue-800 items-center w-full rounded-2xl">
       {/* Role Switcher */}
       <div>
-        <label style={{ marginRight: 8, fontWeight: 'bold' }}>Role:</label>
+        <label className="mr-2 font-bold text-white">Role:</label>
         <select
+          className="text-white bg-gray-800"
           value={state.role}
           onChange={(e) =>
             dispatch({
@@ -50,9 +42,30 @@ export default function DashboardHeader() {
         </select>
       </div>
 
-      <button
-        className={`
-    px-4 py-2 rounded font-semibold transition-colors duration-300 text-white
+      {/* Filter + Stats */}
+      <div className="flex items-center gap-20">
+        {/* Summary*/}
+        <div className="flex gap-3 text-l text-white">
+          <span>
+            🟡 {counts.PENDING} <span className="text-yellow-300">Pending</span>
+          </span>
+          <span>
+            🔵 {counts.ACTIVE} <span className="text-blue-400">Active</span>
+          </span>
+          <span>
+            🟢 {counts.COMPLETED}{' '}
+            <span className="text-green-400">Completed</span>
+          </span>
+          <span>
+            🔴 {counts.CANCELLED}{' '}
+            <span className="text-red-400">Cancelled</span>
+          </span>
+        </div>
+
+        {/* Connection Indicator */}
+        <button
+          className={`
+    px-4 py-2 rounded-3xl font-semibold text-l transition-colors duration-300 text-white cursor-auto
     ${
       connectionStatus === 'CONNECTED'
         ? 'bg-green-500 animate-pulse'
@@ -61,16 +74,15 @@ export default function DashboardHeader() {
           : 'bg-gray-500'
     }
   `}
-      >
-        {connectionStatus}
-      </button>
+        >
+          {connectionStatus}
+        </button>
 
-      {/* Filter + Stats */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {/* Filter */}
         <div>
-          <label style={{ marginRight: 8, fontWeight: 'bold' }}>Filter:</label>
+          <label className="mr-2 font-bold text-white">Filter:</label>
           <select
+            className="text-white bg-gray-800"
             value={state.filter}
             onChange={(e) =>
               dispatch({
@@ -85,14 +97,6 @@ export default function DashboardHeader() {
             <option value="COMPLETED">Completed</option>
             <option value="CANCELLED">Cancelled</option>
           </select>
-        </div>
-
-        {/* Summary*/}
-        <div style={{ display: 'flex', gap: '12px', fontSize: 14 }}>
-          <span>🟡 {counts.PENDING}</span>
-          <span>🔵 {counts.ACTIVE}</span>
-          <span>🟢 {counts.COMPLETED}</span>
-          <span>🔴 {counts.CANCELLED}</span>
         </div>
       </div>
     </div>
