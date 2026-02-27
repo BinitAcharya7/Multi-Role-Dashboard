@@ -10,7 +10,7 @@ export interface Agent {
 export interface Request {
   id: string;
   state: RequestState;
-  agentId: string;
+  agentId: string | null;
   // agentName: string,
   description: string;
   lastUpdated: string;
@@ -41,5 +41,5 @@ export type Action =
   | { type: 'REASSIGN_REQUEST'; id: string; agentId: string }
   | { type: 'AUTO_ADVANCE' }
   | { type: 'REQUEST_CREATED' }
-  | { type: 'STATE_CHANGED' }
+  | { type: 'STATE_CHANGED'; id: string }
   | { type: 'AGENT_ASSIGNED' };

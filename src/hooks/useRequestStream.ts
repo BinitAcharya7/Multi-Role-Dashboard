@@ -6,7 +6,6 @@ type Status = 'CONNECTED' | 'RECONNECTING';
 export function useRequestStream(enabled: boolean) {
   const { state, dispatch } = useApp();
   const [status, setStatus] = useState<Status>('CONNECTED');
-  const reconnectTimer = useRef<number | null>(null);
   const requestsRef = useRef(state.requests);
 
   useEffect(() => {
@@ -41,7 +40,7 @@ export function useRequestStream(enabled: boolean) {
         clearInterval(interval);
         setStatus('RECONNECTING');
 
-        reconnectTimer.current = setTimeout(() => {
+        setTimeout(() => {
           startStream(); // restart everything
         }, 5000);
       }, 30000);
@@ -52,7 +51,6 @@ export function useRequestStream(enabled: boolean) {
     return () => {
       clearInterval(interval);
       clearTimeout(disconnectTimer);
-      if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
     };
   }, [enabled, dispatch]);
 

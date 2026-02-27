@@ -9,7 +9,19 @@ export const initialState: AppState = {
   filter: 'ALL',
 };
 
-const agentArray = ['a1', 'a2', 'a3', 'a4', 'a5'];
+const agentArray = [
+  'a1',
+  null,
+  null,
+  'a2',
+  'a3',
+  'a4',
+  'a5',
+  null,
+  null,
+  null,
+  null,
+];
 
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -143,10 +155,24 @@ function handleStateChanged(state: AppState, id: string): AppState {
 }
 
 function handleAgentAssigned(state: AppState): AppState {
+  const unassigned = state.requests.filter(
+    (req) => req.state === 'PENDING' && req.agentId === null,
+  );
+
+  if (unassigned.length === 0) return state;
+
+  const randomRequest =
+    unassigned[Math.floor(Math.random() * unassigned.length)];
+
   return {
     ...state,
     requests: state.requests.map((req) =>
-      req.state === 'PENDING' ? { ...req, assignedTo: 'a2' } : req,
+      req.id === randomRequest.id
+        ? {
+            ...req,
+            agentId: agentArray[Math.floor(Math.random() * agentArray.length)],
+          }
+        : req,
     ),
   };
 }
