@@ -1,5 +1,7 @@
 # Operations Dashboard
 
+![Supervisor View with Agent Summary](screenshots/supervisor-view.png)
+
 A real-time operations dashboard built with React 19, TypeScript, and Tailwind CSS v4. It simulates a live request management system where supervisors can monitor, reassign, and manage requests across multiple agents, while agents see and control only their own assigned work.
 
 ## Running Locally
