@@ -34,7 +34,7 @@ export default function RequestList() {
       <div className="p-5">
         <h2 className="text-center">
           <span
-            className="font-extrabold text-purple-600 text-2xl cursor-pointer"
+            className={`font-extrabold ${state.role === 'SUPERVISOR' ? 'text-purple-400' : 'text-blue-400'} text-2xl cursor-pointer`}
             onClick={() =>
               dispatch({
                 type: 'SET_ROLE',
@@ -55,7 +55,7 @@ export default function RequestList() {
     <div className="p-5">
       <h2 className="text-center">
         <span
-          className="font-extrabold text-purple-600 text-2xl cursor-pointer"
+          className={`font-extrabold ${state.role === 'SUPERVISOR' ? 'text-purple-400' : 'text-blue-400'} text-2xl cursor-pointer`}
           onClick={() =>
             dispatch({
               type: 'SET_ROLE',

@@ -26,7 +26,7 @@ export default function AgentSummaryModal({ onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-gray-900 border border-purple-700 rounded-lg p-6 w-full max-w-2xl shadow-lg"
+        className="bg-linear-120 from-purple-950 via-blue-950 to-purple-950 border border-purple-400 rounded-xl p-6 w-full max-w-2xl shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-5">
@@ -46,7 +46,7 @@ export default function AgentSummaryModal({ onClose }: Props) {
             ({ agent, PENDING, ACTIVE, COMPLETED, CANCELLED, total }) => (
               <div
                 key={agent.id}
-                className="flex items-center justify-between bg-gray-800 rounded-md px-4 py-3"
+                className="flex items-center justify-between bg-gray-900 hover:bg-gray-800 rounded-2xl px-4 py-3"
               >
                 <span className="text-pink-300 font-semibold w-24">
                   {agent.name}

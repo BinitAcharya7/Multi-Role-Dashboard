@@ -23,7 +23,7 @@ export default function DashboardHeader() {
   });
 
   return (
-    <div className="px-6 flex gap-4 justify-around h-32 bg-linear-120 from-gray-950 via-purple-950 to-gray-950 items-center w-full">
+    <div className="px-6 py-8 flex flex-wrap gap-4 justify-around bg-linear-120 from-blue-950 via-purple-950 to-blue-950 items-center w-full">
       {/* Role Switcher */}
       <div>
         <label className="mr-2 font-bold text-pink-300">Role:</label>
@@ -43,7 +43,7 @@ export default function DashboardHeader() {
       </div>
 
       {/* Filter + Stats */}
-      <div className="flex items-center gap-20">
+      <div className="flex flex-wrap items-center gap-4 md:gap-8 lg:gap-20">
         {/* Summary*/}
         <div className="flex gap-3 text-l text-white">
           <span>
@@ -58,7 +58,7 @@ export default function DashboardHeader() {
           </span>
           <span>
             🔴 {counts.CANCELLED}{' '}
-            <span className="text-red-400">Cancelled</span>
+            <span className="text-red-500">Cancelled</span>
           </span>
         </div>
 

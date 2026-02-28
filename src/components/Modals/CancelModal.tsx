@@ -28,7 +28,7 @@ export default function CancelModal({ isOpen, onClose, onConfirm }: Props) {
       onClick={onClose}
     >
       <div
-        className="rounded-2xl p-6 w-96 shadow-lg bg-gray-800 border border-red-700"
+        className="rounded-2xl p-6 w-96 shadow-lg bg-linear-120 from-blue-950 via-purple-950 to-blue-950 border border-red-700"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold mb-4 text-center">Cancel Request</h2>

@@ -17,7 +17,7 @@ function RequestCard({ req, currentAgentId }: RequestCardProps) {
   return (
     <div
       key={req.id}
-      className="border-purple-800 p-4 border rounded-4xl flex-col text-left shadow-black bg-gray-900 text-white"
+      className="border-gray-400 p-4 border rounded-4xl flex-col text-left shadow-black bg-linear-120 from-blue-950 via-purple-950 to-blue-950 text-white"
     >
       <div className="text-center text-yellow-400">
         <strong>{req.description}</strong>
