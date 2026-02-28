@@ -7,7 +7,7 @@ A real-time operations dashboard built with React 19, TypeScript, and Tailwind C
 ## Running Locally
 
 ```bash
-git clone <repo-url> && cd depth-nepal-project
+git clone https://github.com/BinitAcharya7/Multi-Role-Dashboard && cd depth-nepal-project
 npm install
 npm run dev
 ```
